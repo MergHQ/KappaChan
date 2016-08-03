@@ -1,0 +1,2 @@
+# KappaChan
+Discord bot
