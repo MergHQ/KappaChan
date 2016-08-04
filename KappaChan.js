@@ -22,7 +22,7 @@ App.client.on('ready', () => {
 
 
 App.client.on('guildCreate', g => {
-  var res = '```Hello ${g.name}! Thanks for using me. \n\n'
+  var res = '```Hello '+ g.name +'! Thanks for using me. \n\n'
   + 'Use !help for a list of commands.```';
 
   App.client.createMessage(g.defaultChannel.id, res);
