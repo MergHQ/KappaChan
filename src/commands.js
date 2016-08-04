@@ -26,7 +26,7 @@ module.exports = function () {
   };
 
   var emote = {
-    keyword: '!emote',
+    keyword: '👉emote',
     desc: 'Replaces your message with a twitch or bttv emote, example: <!emote Kappa>',
     adminOnly: false,
     exec: function (payload) {
@@ -41,7 +41,7 @@ module.exports = function () {
   };
 
   var help = {
-    keyword: '!help',
+    keyword: '👉help',
     desc: 'Lists all commands',
     adminOnly: false,
     exec: function (payload) {
