@@ -1,7 +1,8 @@
 const Eris = require('eris');
 const fs = require('fs');
-const EmoteRequest = require('./src/emotes.js');
-const Commands = require('./src/commands.js');
+const EmoteRequest = require('./src/emotes');
+const Commands = require('./src/commands');
+const Statposter = require('./src/statposter');
 
 GLOBAL.App = {};
 
@@ -10,6 +11,9 @@ App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
 App.bMuted = false;
+
+var sp = new Statposter();
+sp.start();
 
 process.on('uncaughtException', err => {
   console.log(err);
