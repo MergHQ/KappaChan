@@ -12,9 +12,6 @@ App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
 App.bMuted = false;
 
-var sp = new Statposter();
-sp.start();
-
 process.on('uncaughtException', err => {
   console.log(err);
   console.log(err.stack);
@@ -22,6 +19,9 @@ process.on('uncaughtException', err => {
 
 App.client.on('ready', () => {
   console.log('READY');
+
+  var sp = new Statposter();
+  sp.start();
 });
 
 

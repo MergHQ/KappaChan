@@ -15,8 +15,9 @@ module.exports = function () {
       }
     };
 
-    needle.post('https://bots.discord.pw/api/bots/105754113572102144/stats/', JSON.stringify({ server_count: App.client.guilds.size }), options, (err, res) => {
-      if (err) console.log(err);
+    needle.post('https://bots.discord.pw/api/bots/' + App.client.user.id +'/stats/', JSON.stringify({ server_count: App.client.guilds.size }), options, (err, res) => {
+      if (err) { console.log(err); return; }
+        console.log("STATS SENT:" + res.body);
     });
   }
 };
