@@ -3,6 +3,8 @@ const fs = require('fs');
 const EmoteRequest = require('./src/emotes');
 const Commands = require('./src/commands');
 const Statposter = require('./src/statposter');
+const Streamreporter = require('./src/streamreporter');
+const DatabaseHandler = require('./src/databasehandler');
 
 GLOBAL.App = {};
 
@@ -10,6 +12,9 @@ App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
 App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
+App.Streamreporter = new Streamreporter();
+App.DatabaseHandler = new DatabaseHandler();
+
 App.bMuted = false;
 
 process.on('uncaughtException', err => {
@@ -23,7 +28,6 @@ App.client.on('ready', () => {
   var sp = new Statposter();
   sp.start();
 });
-
 
 App.client.on('guildCreate', g => {
   var res = '```Hello '+ g.name +'! Thanks for using me. \n\n'

@@ -2,7 +2,7 @@ module.exports = function () {
   this.commands = {};
 
   var mute = {
-    keyword: '👉KappaChanMute',
+    keyword: '&KappaChanMute',
     desc: 'Mutes the bot.',
     adminOnly: false,
     exec: function (payload) {
@@ -14,7 +14,7 @@ module.exports = function () {
   };
 
   var unmute = {
-    keyword: '👉KappaChanUnmute',
+    keyword: '&KappaChanUnmute',
     desc: 'Unmutes the bot.',
     adminOnly: false,
     exec: function (payload) {
@@ -26,7 +26,7 @@ module.exports = function () {
   };
 
   var emote = {
-    keyword: '👉emote',
+    keyword: '&emote',
     desc: 'Replaces your message with a twitch or bttv emote, example: <!emote Kappa>',
     adminOnly: false,
     exec: function (payload) {
@@ -41,7 +41,7 @@ module.exports = function () {
   };
 
   var help = {
-    keyword: '👉help',
+    keyword: '&help',
     desc: 'Lists all commands',
     adminOnly: false,
     exec: function (payload) {
@@ -58,8 +58,17 @@ module.exports = function () {
     }
   };
 
+  var watchstream = {
+    keyword: '&streamnotify',
+    desc: 'Work in progress.',
+    adminOnly: false,
+    exec: function (payload) {
+      //App.Streamreporter.addStream(payload);
+    }
+  };
+
   var exec = {
-    keyword: '👉exec',
+    keyword: '&exec',
     desc: '',
     adminOnly: true,
     exec: function (payload) {
@@ -83,6 +92,7 @@ module.exports = function () {
   this.commands[emote.keyword] = emote;
   this.commands[help.keyword] = help;
   this.commands[exec.keyword] = exec;
+  this.commands[watchstream.keyword] = watchstream;
 
   this.onMessage = function (payload) {
     if (payload.command in this.commands)
