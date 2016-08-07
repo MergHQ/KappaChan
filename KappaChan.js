@@ -13,7 +13,7 @@ App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
 //App.Streamreporter = new Streamreporter();
-App.DatabaseHandler = new DatabaseHandler();
+//App.DatabaseHandler = new DatabaseHandler();
 
 App.bMuted = false;
 
