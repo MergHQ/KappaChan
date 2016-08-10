@@ -27,7 +27,7 @@ module.exports = function () {
 
   var emote = {
     keyword: '&emote',
-    desc: 'Replaces your message with a twitch or bttv emote, example: <!emote Kappa>',
+    desc: 'Replaces your message with a twitch or bttv emote, example: <&emote Kappa>',
     adminOnly: false,
     exec: function (payload) {
       var permissions = payload.message.member.permission.json;
@@ -60,10 +60,19 @@ module.exports = function () {
 
   var watchstream = {
     keyword: '&streamnotify',
-    desc: 'Work in progress.',
+    desc: 'Work in progress. <&streamnotify lirik>',
     adminOnly: false,
     exec: function (payload) {
-      //App.Streamreporter.addStream(payload);
+      App.Streamreporter.addStream(payload);
+    }
+  };
+  
+  var unwatchstream = {
+    keyword: '&unstreamnotify',
+    desc: 'Work in progress. <&streamnotify lirik>',
+    adminOnly: false,
+    exec: function (payload) {
+      App.Streamreporter.removeStream(payload);
     }
   };
 
@@ -87,15 +96,39 @@ module.exports = function () {
     }
   };
 
+  var bugreport = {
+    keyword: '&bugreport',
+    desc: 'Send a bug report.',
+    adminOnly: false,
+    exec: function (payload) {
+      App.sendDebug('BUG REPORT (' + payload.message.author.username +',' + payload.message.channel.name + ',' + payload.message.channel.guild.name +'):    ' + payload.parameter);
+    }
+  };
+
+  var asdf = {
+    keyword: '&asdf',
+    desc: 'Send a bug report.',
+    adminOnly: false,
+    exec: function (payload) {
+      console.log(payload.message.channel.permissionsOf(payload.message.author.member).json);
+    }
+  };
+
+  this.onMessage = function (payload) {
+    if (payload.command in this.commands) {
+      this.commands[payload.command].exec(payload);
+
+      App.sendDebug('COMMAND EXECUTION (' + payload.message.author.username + '):   *' + payload.message.content + '*');
+    }
+  };
+
   this.commands[mute.keyword] = mute;
   this.commands[unmute.keyword] = unmute;
   this.commands[emote.keyword] = emote;
   this.commands[help.keyword] = help;
   this.commands[exec.keyword] = exec;
   this.commands[watchstream.keyword] = watchstream;
-
-  this.onMessage = function (payload) {
-    if (payload.command in this.commands)
-      this.commands[payload.command].exec(payload);
-  };
+  this.commands[bugreport.keyword] = bugreport;
+  this.commands[asdf.keyword] = asdf;
+  this.commands[unwatchstream.keyword] = unwatchstream;
 };

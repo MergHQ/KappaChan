@@ -1,10 +1,10 @@
-const Eris = require('eris');
+const Eris = require('../eris/index.js');
 const fs = require('fs');
 const EmoteRequest = require('./src/emotes');
 const Commands = require('./src/commands');
 const Statposter = require('./src/statposter');
-//const Streamreporter = require('./src/streamreporter');
-//const DatabaseHandler = require('./src/databasehandler');
+const Streamreporter = require('./src/streamreporter');
+const DatabaseHandler = require('./src/databasehandler');
 
 GLOBAL.App = {};
 
@@ -12,18 +12,19 @@ App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
 App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
-//App.Streamreporter = new Streamreporter();
-//App.DatabaseHandler = new DatabaseHandler();
 
 App.bMuted = false;
 
 process.on('uncaughtException', err => {
   console.log(err);
   console.log(err.stack);
+  App.sendDebug(err);
 });
 
 App.client.on('ready', () => {
-  console.log('READY');
+  App.sendDebug('READY');
+  App.DatabaseHandler = new DatabaseHandler();
+  App.Streamreporter = new Streamreporter();
 
   var sp = new Statposter();
   sp.start();
@@ -50,5 +51,13 @@ App.client.on('messageCreate', m => {
   App.Commands.onMessage(payload);
 });
 
+
+App.sendDebug = function (message) {
+  if(!App.client.user) return;
+  if(message && message.length > 0)
+  App.client.createMessage(App.config.logChannel, message);
+};
+
 App.client.connect();
 
+  
