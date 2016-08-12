@@ -1,4 +1,4 @@
-const Eris = require('../eris/index.js');
+const Eris = require('eris');
 const fs = require('fs');
 const EmoteRequest = require('./src/emotes');
 const Commands = require('./src/commands');
