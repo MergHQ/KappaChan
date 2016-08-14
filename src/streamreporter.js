@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function () {
   const needle = require('needle');
   const twitchAPI = require('./api/twitch');
@@ -15,7 +17,6 @@ module.exports = function () {
       };
 
       update(obj);
-      setInterval(() => { update(obj) }, 60000);
       this.notificationList[payload.parameter] = obj;
     } else {
       var channel = this.notificationList[payload.parameter];
@@ -65,14 +66,17 @@ module.exports = function () {
     App.DatabaseHandler.post('StreamReport', self.notificationList);
   }
 
+  setInterval(() => {
+    for(let i in self.notificationList) {
+      update(self.notificationList[i]);
+    }
+  }, 60000);
+
   App.DatabaseHandler.onReady(() => {
     App.DatabaseHandler.get('StreamReport', doc => {
       for (var key in doc[0]) {
         if (key === "_id") continue;
         self.notificationList[key] = doc[0][key];
-
-        update(self.notificationList[key]);
-        setInterval(() => { update(self.notificationList[key]) }, 60000);
       }
     });
     setInterval(pushToDb, 60000);
