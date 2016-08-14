@@ -45,7 +45,7 @@ module.exports = function () {
     needle.get(twitchAPI.GET_channel(obj.twichChannel), (err, res) => {
       if (err) App.sendDebug(err);
       if (res.body.streams.length > 0) {
-        if (!obj.isLive) {
+        if (obj.isLive === false) {
           for (var i = 0; i < obj.textChannels.length; i++) {
             var channel = obj.textChannels[i];
             App.client.createMessage(channel,
