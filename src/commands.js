@@ -105,12 +105,12 @@ module.exports = function () {
     }
   };
 
-  var asdf = {
-    keyword: '&asdf',
-    desc: 'Send a bug report.',
+  var streamsearch = {
+    keyword: '&streamsearch',
+    desc: 'Searches for streams (&streamsearch dota 2)',
     adminOnly: false,
     exec: function (payload) {
-      console.log(payload.message.channel.permissionsOf(payload.message.author.member).json);
+      App.Streamsearch.do(payload);
     }
   };
 
@@ -129,6 +129,6 @@ module.exports = function () {
   this.commands[exec.keyword] = exec;
   this.commands[watchstream.keyword] = watchstream;
   this.commands[bugreport.keyword] = bugreport;
-  this.commands[asdf.keyword] = asdf;
+  this.commands[streamsearch.keyword] = streamsearch;
   this.commands[unwatchstream.keyword] = unwatchstream;
 };

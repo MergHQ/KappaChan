@@ -5,6 +5,7 @@ const Commands = require('./src/commands');
 const Statposter = require('./src/statposter');
 const Streamreporter = require('./src/streamreporter');
 const DatabaseHandler = require('./src/databasehandler');
+const Streamsearch = require('./src/streamsearch');
 
 GLOBAL.App = {};
 
@@ -12,6 +13,7 @@ App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
 App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
+App.Streamsearch = new Streamsearch();
 
 App.bMuted = false;
 
