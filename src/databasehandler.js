@@ -11,7 +11,7 @@ module.exports = function () {
   };
 
   this.post = function (collection, data) {
-    App.sendDebug('PUSHING TO DB (' + collection + '): ' + JSON.stringify(self.notificationList));
+    App.sendDebug('PUSHING TO DB (' + collection + ')');
     this.db.collection(collection).count({}, (err, count) => {
       if (count == 0)
         this.db.collection(collection).insert(data);

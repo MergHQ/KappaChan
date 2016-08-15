@@ -25,6 +25,7 @@ module.exports = function () {
       if (channel.textChannels.indexOf(payload.channel_id) !== -1) return;
 
       this.notificationList[payload.parameter].textChannels.push(payload.message.channel.id);
+      App.client.createMessage(payload.message.channel.id, '👌');
     }
   };
 
@@ -40,6 +41,8 @@ module.exports = function () {
           delete this.notificationList[payload.parameter];
       }
     }
+
+    App.client.createMessage(payload.message.channel.id, '👌');
   };
 
   function update(obj) {
@@ -62,7 +65,6 @@ module.exports = function () {
   }
 
   function pushToDb() {
-    App.sendDebug('PUSHING TO DB ' + JSON.stringify(self.notificationList));
     App.DatabaseHandler.post('StreamReport', self.notificationList);
   }
 

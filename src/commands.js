@@ -59,8 +59,8 @@ module.exports = function () {
   };
 
   var watchstream = {
-    keyword: '&streamnotify',
-    desc: 'Work in progress. <&streamnotify lirik>',
+    keyword: '&StreamNotify',
+    desc: 'Sends notification when stream goes live to the channel the command is executed from. <&StreamNotify lirik>',
     adminOnly: false,
     exec: function (payload) {
       App.Streamreporter.addStream(payload);
@@ -68,8 +68,8 @@ module.exports = function () {
   };
   
   var unwatchstream = {
-    keyword: '&unstreamnotify',
-    desc: 'Work in progress. <&streamnotify lirik>',
+    keyword: '&UnStreamNotify',
+    desc: 'Removes notification from current channel. <&UnStreamNotify lirik>',
     adminOnly: false,
     exec: function (payload) {
       App.Streamreporter.removeStream(payload);
@@ -97,7 +97,7 @@ module.exports = function () {
   };
 
   var bugreport = {
-    keyword: '&bugreport',
+    keyword: '&bug',
     desc: 'Send a bug report.',
     adminOnly: false,
     exec: function (payload) {
@@ -106,8 +106,8 @@ module.exports = function () {
   };
 
   var streamsearch = {
-    keyword: '&streamsearch',
-    desc: 'Searches for streams (&streamsearch dota 2)',
+    keyword: '&Streamsearch',
+    desc: 'Searches for streams (&Streamsearch dota 2)',
     adminOnly: false,
     exec: function (payload) {
       App.Streamsearch.do(payload);
