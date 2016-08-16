@@ -7,7 +7,10 @@ module.exports = function () {
   var self = this;
 
   this.addStream = function (payload) {
-    if (payload.parameter.length == 0) return;
+    if (payload.parameter.length == 0) {
+      App.client.createMessage(payload.message.channel.id, `Invalid parameter '${payload.parameter}'`);
+      return;
+    };
 
     if (!this.notificationList[payload.parameter]) {
       var obj = {
@@ -18,6 +21,7 @@ module.exports = function () {
 
       update(obj);
       this.notificationList[payload.parameter] = obj;
+      App.client.createMessage(payload.message.channel.id, '👌');
     } else {
       var channel = this.notificationList[payload.parameter];
 
@@ -30,7 +34,10 @@ module.exports = function () {
   };
 
   this.removeStream = function (payload) {
-    if (!this.notificationList[payload.parameter]) return;
+    if (!this.notificationList[payload.parameter]) {
+      App.client.createMessage(payload.message.channel.id, `Can't find '${payload.parameter}'`);
+      return;
+    }
 
     var obj = this.notificationList[payload.parameter];
     for (var i = 0; i < obj.textChannels.length; i++) {

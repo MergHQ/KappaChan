@@ -1,8 +1,10 @@
+'use strict';
+
 const Eris = require('eris');
 const fs = require('fs');
 const EmoteRequest = require('./src/emotes');
 const Commands = require('./src/commands');
-const Statposter = require('./src/statposter');
+const Stats = require('./src/stats');
 const Streamreporter = require('./src/streamreporter');
 const DatabaseHandler = require('./src/databasehandler');
 const Streamsearch = require('./src/streamsearch');
@@ -28,13 +30,13 @@ App.client.on('ready', () => {
   App.DatabaseHandler = new DatabaseHandler();
   App.Streamreporter = new Streamreporter();
 
-  var sp = new Statposter();
-  sp.start();
+  App.Stats = new Stats();
+  App.Stats.start();
 });
 
 App.client.on('guildCreate', g => {
   var res = '```Hello '+ g.name +'! Thanks for using me. \n\n'
-  + 'Use 👉help for a list of commands.```';
+  + 'Use &help for a list of commands.```';
 
   App.client.createMessage(g.defaultChannel.id, res);
 });
@@ -49,6 +51,9 @@ App.client.on('messageCreate', m => {
     parameter: split.join(' '),
     message: m
   };
+
+  if (App.Stats)
+    App.Stats.messages++;
 
   App.Commands.onMessage(payload);
 });

@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function () {
   this.commands = {};
 
@@ -5,7 +7,7 @@ module.exports = function () {
     keyword: '&KappaChanMute',
     desc: 'Mutes the bot.',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       App.bMuted = true;
       App.client.createMessage(payload.message.channel.id,
         '⏸'
@@ -17,7 +19,7 @@ module.exports = function () {
     keyword: '&KappaChanUnmute',
     desc: 'Unmutes the bot.',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       App.bMuted = false;
       App.client.createMessage(payload.message.channel.id,
         '▶'
@@ -29,7 +31,7 @@ module.exports = function () {
     keyword: '&emote',
     desc: 'Replaces your message with a twitch or bttv emote, example: <&emote Kappa>',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       var permissions = payload.message.member.permission.json;
       if (permissions.manageMessages == undefined || permissions.manageMessages == false) {
         App.client.createMessage(payload.message.channel.id,
@@ -44,7 +46,7 @@ module.exports = function () {
     keyword: '&help',
     desc: 'Lists all commands',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       var resStr = '\n HELP: \n';
       for (var i in App.Commands.commands) {
         var val = App.Commands.commands[i];
@@ -62,7 +64,7 @@ module.exports = function () {
     keyword: '&StreamNotify',
     desc: 'Sends notification when stream goes live to the channel the command is executed from. <&StreamNotify lirik>',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       App.Streamreporter.addStream(payload);
     }
   };
@@ -71,7 +73,7 @@ module.exports = function () {
     keyword: '&UnStreamNotify',
     desc: 'Removes notification from current channel. <&UnStreamNotify lirik>',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       App.Streamreporter.removeStream(payload);
     }
   };
@@ -80,7 +82,7 @@ module.exports = function () {
     keyword: '&exec',
     desc: '',
     adminOnly: true,
-    exec: function (payload) {
+    exec: (payload) => {
       if (App.config.adminUIDs.indexOf(payload.message.author.id) == -1) return;
       var res = '';
       try {
@@ -100,7 +102,7 @@ module.exports = function () {
     keyword: '&bug',
     desc: 'Send a bug report.',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       App.sendDebug('BUG REPORT (' + payload.message.author.username +',' + payload.message.channel.name + ',' + payload.message.channel.guild.name +'):    ' + payload.parameter);
     }
   };
@@ -109,14 +111,25 @@ module.exports = function () {
     keyword: '&Streamsearch',
     desc: 'Searches for streams (&Streamsearch dota 2)',
     adminOnly: false,
-    exec: function (payload) {
+    exec: (payload) => {
       App.Streamsearch.do(payload);
     }
   };
 
-  this.onMessage = function (payload) {
+  var stats = {
+    keyword: '&stats',
+    desc: 'Shows a bunch of cool stats of this bot',
+    adminOnly: false,
+    exec: (payload) => {
+      App.Stats.send(payload);      
+    }
+  };
+
+  this.onMessage = (payload) => {
     if (payload.command in this.commands) {
       this.commands[payload.command].exec(payload);
+
+      App.Stats.commandExecs++;
 
       App.sendDebug('COMMAND EXECUTION (' + payload.message.author.username + '):   *' + payload.message.content + '*');
     }
@@ -131,4 +144,5 @@ module.exports = function () {
   this.commands[bugreport.keyword] = bugreport;
   this.commands[streamsearch.keyword] = streamsearch;
   this.commands[unwatchstream.keyword] = unwatchstream;
+  this.commands[stats.keyword] = stats;
 };

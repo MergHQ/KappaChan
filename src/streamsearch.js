@@ -1,3 +1,5 @@
+'use strict';
+
 module.exports = function () {
   const needle = require('needle');
   const twitchApi = require('./api/twitch');
