@@ -35,17 +35,17 @@ App.client.on('ready', () => {
 });
 
 App.client.on('guildCreate', g => {
-  var res = '```Hello '+ g.name +'! Thanks for using me. \n\n'
-  + 'Use &help for a list of commands.```';
+  var res = '```Hello ' + g.name + '! Thanks for using me. \n\n'
+    + 'Use &help for a list of commands.```';
 
   App.client.createMessage(g.defaultChannel.id, res);
 });
 
 App.client.on('messageCreate', m => {
-  if(!m.channel.guild) return;
+  if (!m.channel.guild) return;
   var split = m.content.split(' ');
   var command = split.shift();
-  
+
   var payload = {
     command: command,
     parameter: split.join(' '),
@@ -60,11 +60,10 @@ App.client.on('messageCreate', m => {
 
 
 App.sendDebug = function (message) {
-  if(!App.client.user) return;
-  if(message && message.length > 0)
-  App.client.createMessage(App.config.logChannel, message);
+  if (!App.client.user) return;
+  if (message && message.length > 0)
+    App.client.createMessage(App.config.logChannel, message);
 };
 
 App.client.connect();
 
-  

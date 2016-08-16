@@ -68,7 +68,7 @@ module.exports = function () {
       App.Streamreporter.addStream(payload);
     }
   };
-  
+
   var unwatchstream = {
     keyword: '&UnStreamNotify',
     desc: 'Removes notification from current channel. <&UnStreamNotify lirik>',
@@ -103,7 +103,7 @@ module.exports = function () {
     desc: 'Send a bug report.',
     adminOnly: false,
     exec: (payload) => {
-      App.sendDebug('BUG REPORT (' + payload.message.author.username +',' + payload.message.channel.name + ',' + payload.message.channel.guild.name +'):    ' + payload.parameter);
+      App.sendDebug('BUG REPORT (' + payload.message.author.username + ',' + payload.message.channel.name + ',' + payload.message.channel.guild.name + '):    ' + payload.parameter);
     }
   };
 
@@ -121,7 +121,7 @@ module.exports = function () {
     desc: 'Shows a bunch of cool stats of this bot',
     adminOnly: false,
     exec: (payload) => {
-      App.Stats.send(payload);      
+      App.Stats.send(payload);
     }
   };
 

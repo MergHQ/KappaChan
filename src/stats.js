@@ -36,7 +36,7 @@ module.exports = function () {
     };
 
     App.client.createMessage(payload.message.channel.id,
-    `\n\n**UPTIME:** ${this.convertMS(App.client.uptime)} \n **Messages Recieved:** ${self.messages} \n **Command Executions:** ${self.commandExecs}`);
+      `\n\n**UPTIME:** ${this.convertMS(App.client.uptime)} \n **Messages Recieved:** ${self.messages} \n **Command Executions:** ${self.commandExecs}`);
 
   };
 

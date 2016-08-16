@@ -76,7 +76,7 @@ module.exports = function () {
   }
 
   setInterval(() => {
-    for(let i in self.notificationList) {
+    for (let i in self.notificationList) {
       update(self.notificationList[i]);
     }
   }, 60000);
