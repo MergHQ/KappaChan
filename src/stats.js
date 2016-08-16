@@ -56,6 +56,6 @@ module.exports = function () {
   }
 
   function uploadStats() {
-    App.DatabaseHandler.post('Stats', { messages: this.messages, commandExecs: this.commandExecs });
+    App.DatabaseHandler.post('Stats', { messages: self.messages, commandExecs: self.commandExecs });
   }
 };
