@@ -11,7 +11,7 @@ module.exports = function () {
   };
 
   this.post = function (collection, data) {
-    App.sendDebug('PUSHING TO DB (' + collection + ')');
+    App.Logger.log('PUSHING TO DB (' + collection + ')', 2);
     this.db.collection(collection).count({}, (err, count) => {
       if (count == 0)
         this.db.collection(collection).insert(data);
@@ -21,11 +21,11 @@ module.exports = function () {
   };
 
   this.get = function (collection, callback) {
-    App.sendDebug('GETTING FROM DB (' + collection + ')');
+    App.Logger.log('GETTING FROM DB (' + collection + ')', 2);
     let cursor = this.db.collection(collection).find();
     cursor.toArray((err, documents) => {
       if (err !== null) {
-        App.sendDebug(err);
+        App.Logger.log(err, 0);
         return;
       };
 
@@ -39,7 +39,7 @@ module.exports = function () {
   };
 
   MongoClient.connect(App.config.mongodbUrl, function (err, db) {
-    App.sendDebug(err);
+    App.Logger.log(err, 0);
     self.db = db;
     for (var i = 0; i < onReadyListeners.length; i++) onReadyListeners[i]();
   });

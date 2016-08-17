@@ -7,7 +7,6 @@ module.exports = function () {
   var self = this;
 
   this.start = function () {
-    abalUpdate();
     setInterval(abalUpdate, 3600000);
     setInterval(uploadStats, 120000);
 
@@ -22,7 +21,7 @@ module.exports = function () {
     });
   };
 
-  this.send = function (payload) {
+  this.get = function (payload) {
     this.convertMS = (ms) => {
       var s = Math.floor(ms / 1000);
       var m = Math.floor(s / 60);
@@ -50,8 +49,8 @@ module.exports = function () {
     };
 
     needle.post('https://bots.discord.pw/api/bots/' + App.client.user.id + '/stats/', JSON.stringify({ server_count: App.client.guilds.size }), options, (err, res) => {
-      if (err) { App.sendDebug(err); return; }
-      App.sendDebug("STATS SENT:" + JSON.stringify(res.body));
+      if (err) { App.Logger.log(err, 0); return; }
+      App.Logger.log("STATS SENT:" + JSON.stringify(res.body), 2);
     });
   }
 

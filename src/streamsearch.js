@@ -6,7 +6,7 @@ module.exports = function () {
 
   this.do = function (payload) {
     needle.get(twitchApi.GET_streamSearch(payload.parameter), (err, res) => {
-      if (err) App.sendDebug(err);
+      if (err) App.Logger.log(err, 0);
       if (!res.body.streams) return;
       var streams = res.body.streams;
       if (streams.length === 0) {

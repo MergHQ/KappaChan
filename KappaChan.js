@@ -1,5 +1,7 @@
 'use strict';
 
+GLOBAL.App = {};
+
 const Eris = require('eris');
 const fs = require('fs');
 const EmoteRequest = require('./src/emotes');
@@ -8,30 +10,31 @@ const Stats = require('./src/stats');
 const Streamreporter = require('./src/streamreporter');
 const DatabaseHandler = require('./src/databasehandler');
 const Streamsearch = require('./src/streamsearch');
-
-GLOBAL.App = {};
+const Logger = require('./src/logger');
 
 App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
+App.Logger = new Logger();
 App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
 App.Streamsearch = new Streamsearch();
+App.DatabaseHandler = new DatabaseHandler();
+App.Streamreporter = new Streamreporter();
+App.Stats = new Stats();
+App.Stats.start();
+
 
 App.bMuted = false;
 
 process.on('uncaughtException', err => {
-  console.log(err);
-  console.log(err.stack);
-  App.sendDebug(err);
+  if(App.Logger.log)
+    App.Logger.log(err, 0);
+  else
+    console.log(err);
 });
 
 App.client.on('ready', () => {
-  App.sendDebug('READY');
-  App.DatabaseHandler = new DatabaseHandler();
-  App.Streamreporter = new Streamreporter();
-
-  App.Stats = new Stats();
-  App.Stats.start();
+  App.Logger.log('READY', 2);
 });
 
 App.client.on('guildCreate', g => {
@@ -57,13 +60,6 @@ App.client.on('messageCreate', m => {
 
   App.Commands.onMessage(payload);
 });
-
-
-App.sendDebug = function (message) {
-  if (!App.client.user) return;
-  if (message && message.length > 0)
-    App.client.createMessage(App.config.logChannel, message);
-};
 
 App.client.connect();
 

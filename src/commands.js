@@ -103,7 +103,7 @@ module.exports = function () {
     desc: 'Send a bug report.',
     adminOnly: false,
     exec: (payload) => {
-      App.sendDebug('BUG REPORT (' + payload.message.author.username + ',' + payload.message.channel.name + ',' + payload.message.channel.guild.name + '):    ' + payload.parameter);
+      App.Logger.log('BUG REPORT (' + payload.message.author.username + ',' + payload.message.channel.name + ',' + payload.message.channel.guild.name + '):    ' + payload.parameter, 2);
     }
   };
 
@@ -121,7 +121,7 @@ module.exports = function () {
     desc: 'Shows a bunch of cool stats of this bot',
     adminOnly: false,
     exec: (payload) => {
-      App.Stats.send(payload);
+      App.Stats.get(payload);
     }
   };
 
@@ -131,7 +131,7 @@ module.exports = function () {
 
       App.Stats.commandExecs++;
 
-      App.sendDebug('COMMAND EXECUTION (' + payload.message.author.username + '):   *' + payload.message.content + '*');
+      App.Logger.log('COMMAND EXECUTION (' + payload.message.author.username + '):   *' + payload.message.content + '*', 2);
     }
   };
 
