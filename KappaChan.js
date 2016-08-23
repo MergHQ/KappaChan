@@ -34,7 +34,6 @@ process.on('uncaughtException', err => {
 
 App.client.on('ready', () => {
   App.Logger.log('READY', 2);
-  setTimeout(() => {throw new Error('Shit my pants')}, 5000);;
 });
 
 App.client.on('guildCreate', g => {
