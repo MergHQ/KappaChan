@@ -21,20 +21,20 @@ App.Streamsearch = new Streamsearch();
 App.DatabaseHandler = new DatabaseHandler();
 App.Streamreporter = new Streamreporter();
 App.Stats = new Stats();
-App.Stats.start();
-
 
 App.bMuted = false;
 
 process.on('uncaughtException', err => {
-  if(App.Logger.log)
-    App.Logger.log(err, 0);
-  else
-    console.log(err);
+    App.Logger.log(err.message + '\n' + err.stack, 0);
+
+    // Leave some time for the ws to finnish sending.
+    setTimeout(process.exit.bind(1), 3000);
 });
+
 
 App.client.on('ready', () => {
   App.Logger.log('READY', 2);
+  setTimeout(() => {throw new Error('Shit my pants')}, 5000);;
 });
 
 App.client.on('guildCreate', g => {

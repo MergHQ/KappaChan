@@ -3,30 +3,6 @@
 module.exports = function () {
   this.commands = {};
 
-  var mute = {
-    keyword: '&KappaChanMute',
-    desc: 'Mutes the bot.',
-    adminOnly: false,
-    exec: (payload) => {
-      App.bMuted = true;
-      App.client.createMessage(payload.message.channel.id,
-        '⏸'
-      );
-    }
-  };
-
-  var unmute = {
-    keyword: '&KappaChanUnmute',
-    desc: 'Unmutes the bot.',
-    adminOnly: false,
-    exec: (payload) => {
-      App.bMuted = false;
-      App.client.createMessage(payload.message.channel.id,
-        '▶'
-      );
-    }
-  };
-
   var emote = {
     keyword: '&emote',
     desc: 'Replaces your message with a twitch or bttv emote, example: <&emote Kappa>',
@@ -61,7 +37,7 @@ module.exports = function () {
   };
 
   var watchstream = {
-    keyword: '&StreamNotify',
+    keyword: '&streamnotify',
     desc: 'Sends notification when stream goes live to the channel the command is executed from. <&StreamNotify lirik>',
     adminOnly: false,
     exec: (payload) => {
@@ -70,7 +46,7 @@ module.exports = function () {
   };
 
   var unwatchstream = {
-    keyword: '&UnStreamNotify',
+    keyword: '&unstreamnotify',
     desc: 'Removes notification from current channel. <&UnStreamNotify lirik>',
     adminOnly: false,
     exec: (payload) => {
@@ -108,7 +84,7 @@ module.exports = function () {
   };
 
   var streamsearch = {
-    keyword: '&Streamsearch',
+    keyword: '&streamsearch',
     desc: 'Searches for streams (&Streamsearch dota 2)',
     adminOnly: false,
     exec: (payload) => {
@@ -135,8 +111,6 @@ module.exports = function () {
     }
   };
 
-  this.commands[mute.keyword] = mute;
-  this.commands[unmute.keyword] = unmute;
   this.commands[emote.keyword] = emote;
   this.commands[help.keyword] = help;
   this.commands[exec.keyword] = exec;

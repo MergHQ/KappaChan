@@ -5,6 +5,9 @@ module.exports = function () {
   var ws = null;
   connect();
   var self = this;
+  this.log = (mess, level) => {
+    console.log(mess);
+  };
 
   function connect() {
     ws = new WebSocket(App.config.logserverIP, {headers: {'token': App.config.token}});

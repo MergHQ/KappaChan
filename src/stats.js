@@ -6,20 +6,18 @@ module.exports = function () {
   this.commandExecs = 0;
   var self = this;
 
-  this.start = function () {
-    setInterval(abalUpdate, 3600000);
-    setInterval(uploadStats, 120000);
+  setInterval(abalUpdate, 3600000);
+  setInterval(uploadStats, 120000);
 
-    App.DatabaseHandler.onReady(() => {
-      App.DatabaseHandler.get('Stats', (res) => {
-        res = res[0];
-        if (res.messages)
-          self.messages = res.messages;
-        if (res.commandExecs)
-       	  self.commandExecs = res.commandExecs;
-      });
+  App.DatabaseHandler.onReady(() => {
+    App.DatabaseHandler.get('Stats', (res) => {
+      res = res[0];
+      if (res.messages)
+        self.messages = res.messages;
+      if (res.commandExecs)
+        self.commandExecs = res.commandExecs;
     });
-  };
+  });
 
   this.get = function (payload) {
     this.convertMS = (ms) => {
