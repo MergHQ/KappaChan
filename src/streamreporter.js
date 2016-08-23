@@ -55,18 +55,20 @@ module.exports = function () {
   function update(obj) {
     needle.get(twitchAPI.GET_channel(obj.twichChannel), (err, res) => {
       if (err) App.Logger.log(err, 0);
-      if (res.body.streams.length > 0) {
-        if (obj.isLive === false) {
-          for (var i = 0; i < obj.textChannels.length; i++) {
-            var channel = obj.textChannels[i];
-            App.client.createMessage(channel,
-              '\n **' + obj.twichChannel + ' is now live playing ' + res.body.streams[0].game + '!**  \n \n https://twitch.tv/' + obj.twichChannel
-            );
-            obj.isLive = true;
+      if(!res.body && !res.body.streams) {
+        if (res.body.streams.length > 0) {
+          if (obj.isLive === false) {
+            for (var i = 0; i < obj.textChannels.length; i++) {
+              var channel = obj.textChannels[i];
+              App.client.createMessage(channel,
+                '\n **' + obj.twichChannel + ' is now live playing ' + res.body.streams[0].game + '!**  \n \n https://twitch.tv/' + obj.twichChannel
+              );
+              obj.isLive = true;
+            }
           }
+        } else if (res.body.streams.length === 0 && obj.isLive) {
+          obj.isLive = false;
         }
-      } else if (res.body.streams.length === 0 && obj.isLive) {
-        obj.isLive = false;
       }
     });
   }
