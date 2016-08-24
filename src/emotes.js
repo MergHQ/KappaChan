@@ -37,7 +37,7 @@ module.exports = function () {
           name: 'default.png'
         };
         App.client.createMessage(payload.message.channel.id, '', fileObj);
-        App.client.deleteMessage(payload.message.channel.id, payload.message.id)
+        App.client.deleteMessage(payload.message.channel.id, payload.message.id);
       });
     } catch (e) {
       App.client.createMessage(payload.message.channel.id, '❌ Error occured: ' + e);

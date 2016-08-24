@@ -13,7 +13,7 @@ module.exports = function () {
   this.post = function (collection, data) {
     App.Logger.log('PUSHING TO DB (' + collection + ')', 2);
     this.db.collection(collection).count({}, (err, count) => {
-      if (count == 0)
+      if (count === 0)
         this.db.collection(collection).insert(data);
       else
         this.db.collection(collection).replaceOne({}, data);
@@ -27,7 +27,7 @@ module.exports = function () {
       if (err !== null) {
         App.Logger.log(err, 0);
         return;
-      };
+      }
 
       callback(documents);
     });

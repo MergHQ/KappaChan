@@ -7,10 +7,10 @@ module.exports = function () {
   var self = this;
 
   this.addStream = function (payload) {
-    if (payload.parameter.length == 0) {
+    if (payload.parameter.length === 0) {
       App.client.createMessage(payload.message.channel.id, `Invalid parameter '${payload.parameter}'`);
       return;
-    };
+    }
 
     if (!this.notificationList[payload.parameter]) {
       var obj = {

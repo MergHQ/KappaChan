@@ -9,7 +9,7 @@ module.exports = function () {
     adminOnly: false,
     exec: (payload) => {
       var permissions = payload.message.member.permission.json;
-      if (permissions.manageMessages == undefined || permissions.manageMessages == false) {
+      if (permissions.manageMessages === undefined || permissions.manageMessages === false) {
         App.client.createMessage(payload.message.channel.id,
           "I can't execute this commands, since I dont have permissions to manage messages!"
         );
@@ -62,7 +62,9 @@ module.exports = function () {
       if (App.config.adminUIDs.indexOf(payload.message.author.id) == -1) return;
       var res = '';
       try {
+        /* jshint ignore:start */
         res = eval(payload.parameter.replace('\n', ''));
+        /* jshint ignore:end */
         App.client.createMessage(payload.message.channel.id,
           '```' + res + '```'
         );
