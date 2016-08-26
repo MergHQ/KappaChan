@@ -10,6 +10,7 @@ const Stats = require('./src/stats');
 const Streamreporter = require('./src/streamreporter');
 const DatabaseHandler = require('./src/databasehandler');
 const Streamsearch = require('./src/streamsearch');
+const Channelsearch = require('./src/channelsearch');
 const Logger = require('./src/logger');
 
 App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
@@ -18,6 +19,7 @@ App.client = new Eris(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
 App.Streamsearch = new Streamsearch();
+App.Channelsearch = new Channelsearch();
 App.DatabaseHandler = new DatabaseHandler();
 App.Streamreporter = new Streamreporter();
 App.Stats = new Stats();

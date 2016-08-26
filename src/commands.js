@@ -23,22 +23,22 @@ module.exports = function () {
     desc: 'Lists all commands',
     adminOnly: false,
     exec: (payload) => {
-      var resStr = '\n HELP: \n';
+      var resStr = '\n\n HELP: \n```';
       for (var i in App.Commands.commands) {
         var val = App.Commands.commands[i];
         if (val.adminOnly) continue;
-        resStr += '\n' + val.keyword + ' - ' + val.desc + '\n';
+        resStr += val.keyword + ' - ' + val.desc + '\n';
       }
 
-      App.client.createMessage(payload.message.channel.id,
-        '```' + resStr + '```'
-      );
+      resStr += '```\n\n **Kappa-Chan:** \n Created by: <@105754113572102144> \n GitHub: https://github.com/MergHQ/KappaChan \n';
+
+      App.client.createMessage(payload.message.channel.id, resStr);
     }
   };
 
   var watchstream = {
     keyword: '&streamnotify',
-    desc: 'Sends notification when stream goes live to the channel the command is executed from. <&StreamNotify lirik>',
+    desc: 'Sends notification when stream goes live to the channel the command is executed from. <&streamnotify lirik>',
     adminOnly: false,
     exec: (payload) => {
       App.Streamreporter.addStream(payload);
@@ -47,7 +47,7 @@ module.exports = function () {
 
   var unwatchstream = {
     keyword: '&unstreamnotify',
-    desc: 'Removes notification from current channel. <&UnStreamNotify lirik>',
+    desc: 'Removes notification from current channel. <&unstreamnotify lirik>',
     adminOnly: false,
     exec: (payload) => {
       App.Streamreporter.removeStream(payload);
@@ -87,7 +87,7 @@ module.exports = function () {
 
   var streamsearch = {
     keyword: '&streamsearch',
-    desc: 'Searches for streams (&Streamsearch dota 2)',
+    desc: 'Searches for live channels (&streamsearch dota 2)',
     adminOnly: false,
     exec: (payload) => {
       App.Streamsearch.do(payload);
@@ -100,6 +100,15 @@ module.exports = function () {
     adminOnly: false,
     exec: (payload) => {
       App.Stats.get(payload);
+    }
+  };
+
+  var channelsearch = {
+    keyword: '&channelsearch',
+    desc: 'Searches for channels (&channelsearch dizzykitten)',
+    adminOnly: false,
+    exec: (payload) => {
+      App.Channelsearch.do(payload);
     }
   };
 
@@ -121,4 +130,5 @@ module.exports = function () {
   this.commands[streamsearch.keyword] = streamsearch;
   this.commands[unwatchstream.keyword] = unwatchstream;
   this.commands[stats.keyword] = stats;
+  this.commands[channelsearch.keyword] = channelsearch;
 };

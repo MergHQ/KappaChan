@@ -54,8 +54,11 @@ module.exports = function () {
 
   function update(obj) {
     needle.get(twitchAPI.GET_channel(obj.twichChannel), (err, res) => {
-      if (err) App.Logger.log(err, 0);
-      if(res.body && res.body.streams) {
+      if (err) { 
+        App.Logger.log(err, 0);
+        return;
+      }
+      if (res.body && res.body.streams) {
         if (res.body.streams.length > 0) {
           if (obj.isLive === false) {
             for (var i = 0; i < obj.textChannels.length; i++) {
