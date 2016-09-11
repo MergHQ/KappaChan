@@ -81,6 +81,7 @@ module.exports = function () {
     desc: 'Send a bug report.',
     adminOnly: false,
     exec: (payload) => {
+      App.Logger.log({username:payload.message.author.username, user_id: payload.message.author.id, message: payload.parameter}, 3);
       App.Logger.log('BUG REPORT (' + payload.message.author.username + ',' + payload.message.channel.name + ',' + payload.message.channel.guild.name + '):    ' + payload.parameter, 2);
     }
   };

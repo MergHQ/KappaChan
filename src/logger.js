@@ -2,6 +2,7 @@
 
 module.exports = function () {
   const WebSocket = require('ws');
+  const utils = require('util');
   var ws = null;
   connect();
   var self = this;
@@ -22,6 +23,15 @@ module.exports = function () {
 
     ws.on('open', () => {
       self.log = (payload, logLevel) => {
+
+        if(typeof(payload) === 'Object') {
+          try {
+            payload = JSON.stringify(payload);
+          } catch(e) {
+            console.log(e);
+          }
+        }
+
         var obj = {
           type: logLevel,
           payload: payload
