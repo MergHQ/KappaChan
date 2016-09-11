@@ -10,7 +10,7 @@ module.exports = function () {
   };
 
   function connect() {
-    ws = new WebSocket(App.config.logserverIP, {headers: {'token': App.config.token}});
+    ws = new WebSocket(App.config.logserverIP, {headers: {'token': 'Bot ' + App.config.token}});
     ws.on('error', (e) => {
       console.log(e);
     });
