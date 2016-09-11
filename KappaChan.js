@@ -43,6 +43,11 @@ App.client.on('guildCreate', g => {
     + 'Use &help for a list of commands.```';
 
   App.client.createMessage(g.defaultChannel.id, res);
+  App.Stats.update();
+});
+
+App.client.on('error', (e) => {
+  App.Logger.log(e, 0);
 });
 
 App.client.on('messageCreate', m => {

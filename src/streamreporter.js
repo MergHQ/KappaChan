@@ -81,8 +81,12 @@ module.exports = function () {
   }
 
   setInterval(() => {
+    var offset = 500;
     for (let i in self.notificationList) {
-      update(self.notificationList[i]);
+        setTimeout(() => {
+          update(self.notificationList[i]);
+        }, offset);
+      offset += 500;
     }
   }, 60000);
 

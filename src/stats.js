@@ -37,6 +37,10 @@ module.exports = function () {
 
   };
 
+  this.update = () => {
+    abalUpdate();
+  }
+
   function abalUpdate() {
     var options = {
       json: true,
