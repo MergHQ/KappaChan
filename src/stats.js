@@ -19,7 +19,7 @@ module.exports = function () {
     });
   });
 
-  this.get = function (payload) {
+  this.get = (payload) => {
     this.convertMS = (ms) => {
       var s = Math.floor(ms / 1000);
       var m = Math.floor(s / 60);
@@ -39,7 +39,7 @@ module.exports = function () {
 
   this.update = () => {
     abalUpdate();
-  }
+  };
 
   function abalUpdate() {
     var options = {

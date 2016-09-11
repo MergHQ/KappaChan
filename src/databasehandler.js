@@ -6,11 +6,11 @@ module.exports = function () {
   var onReadyListeners = [];
   this.db = null;
 
-  this.onReady = function (cb) {
+  this.onReady = (cb) => {
     onReadyListeners.push(cb);
   };
 
-  this.post = function (collection, data) {
+  this.post = (collection, data) => {
     App.Logger.log('PUSHING TO DB (' + collection + ')', 2);
     this.db.collection(collection).count({}, (err, count) => {
       if (count === 0)
@@ -20,7 +20,7 @@ module.exports = function () {
     });
   };
 
-  this.get = function (collection, callback) {
+  this.get = (collection, callback) => {
     App.Logger.log('GETTING FROM DB (' + collection + ')', 2);
     let cursor = this.db.collection(collection).find();
     cursor.toArray((err, documents) => {
@@ -34,11 +34,11 @@ module.exports = function () {
   };
 
 
-  this.close = function () {
+  this.close = () => {
     this.db.close();
   };
 
-  MongoClient.connect(App.config.mongodbUrl, function (err, db) {
+  MongoClient.connect(App.config.mongodbUrl, (err, db) => {
     App.Logger.log(err, 0);
     self.db = db;
     for (var i = 0; i < onReadyListeners.length; i++) onReadyListeners[i]();

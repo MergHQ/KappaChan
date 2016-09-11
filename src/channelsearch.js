@@ -4,7 +4,7 @@ module.exports = function () {
   const needle = require('needle');
   const twitchApi = require('./api/twitch');
 
-  this.do = function (payload) {
+  this.do = (payload) => {
     needle.get(twitchApi.GET_channelSearch(payload.parameter), (err, res) => {
       if (err) App.Logger.log(err, 0);
       if (!res.body.channels) return;

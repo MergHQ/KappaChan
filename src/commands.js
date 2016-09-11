@@ -112,6 +112,15 @@ module.exports = function () {
     }
   };
 
+  var list = {
+    keyword: '&list',
+    desc: 'Shows what notifications are set for this channel',
+    adminOnly: false,
+    exec: (payload) => {
+      App.Streamreporter.postNotificationsForChannel(payload);
+    }
+  };
+
   this.onMessage = (payload) => {
     if (payload.command in this.commands) {
       this.commands[payload.command].exec(payload);
@@ -131,4 +140,5 @@ module.exports = function () {
   this.commands[unwatchstream.keyword] = unwatchstream;
   this.commands[stats.keyword] = stats;
   this.commands[channelsearch.keyword] = channelsearch;
+  this.commands[list.keyword] = list;
 };

@@ -6,7 +6,7 @@ module.exports = function () {
   this.notificationList = {};
   var self = this;
 
-  this.addStream = function (payload) {
+  this.addStream = (payload) => {
     if (payload.parameter.length === 0) {
       App.client.createMessage(payload.message.channel.id, `Invalid parameter '${payload.parameter}'`);
       return;
@@ -33,7 +33,7 @@ module.exports = function () {
     }
   };
 
-  this.removeStream = function (payload) {
+  this.removeStream = (payload) => {
     if (!this.notificationList[payload.parameter]) {
       App.client.createMessage(payload.message.channel.id, `Can't find '${payload.parameter}'`);
       return;
@@ -52,6 +52,18 @@ module.exports = function () {
     App.client.createMessage(payload.message.channel.id, '👌');
   };
 
+  this.postNotificationsForChannel = (payload) => {
+    var res = '**Notifications from these channels:**\n\n';
+    for(var i in self.notificationList) {
+      var object = self.notificationList[i];
+      if(object.textChannels.indexOf(payload.message.channel.id) != -1) {
+        res += object.twichChannel + '\n';
+      }
+    }
+
+    App.client.createMessage(payload.message.channel.id, res);
+  };
+
   function update(obj) {
     needle.get(twitchAPI.GET_channel(obj.twichChannel), (err, res) => {
       if (err) { 
@@ -63,6 +75,7 @@ module.exports = function () {
           if (obj.isLive === false) {
             for (var i = 0; i < obj.textChannels.length; i++) {
               var channel = obj.textChannels[i];
+              App.Logger.log(obj.twichChannel + 'is live', 2)
               App.client.createMessage(channel,
                 '\n **' + obj.twichChannel + ' is now live playing ' + res.body.streams[0].game + '!**  \n \n https://twitch.tv/' + obj.twichChannel
               );
@@ -83,9 +96,11 @@ module.exports = function () {
   setInterval(() => {
     var offset = 500;
     for (let i in self.notificationList) {
+        /* jshint ignore:start */
         setTimeout(() => {
           update(self.notificationList[i]);
         }, offset);
+        /* jshint ignore:end */
       offset += 500;
     }
   }, 60000);
