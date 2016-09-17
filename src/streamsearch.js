@@ -5,7 +5,10 @@ module.exports = function () {
   const twitchApi = require('./api/twitch');
 
   this.do = (payload) => {
-    needle.get(twitchApi.GET_streamSearch(payload.parameter), (err, res) => {
+    var options = {
+      headers: { 'Client-ID': App.config.twitchClientId }
+    };
+    needle.get(twitchApi.GET_streamSearch(payload.parameter), options, (err, res) => {
       if (err) App.Logger.log(err, 0);
       if (!res.body.streams) return;
       var streams = res.body.streams;

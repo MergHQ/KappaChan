@@ -65,7 +65,11 @@ module.exports = function () {
   };
 
   function update(obj) {
-    needle.get(twitchAPI.GET_channel(obj.twichChannel), (err, res) => {
+    var options = {
+      headers: { 'Client-ID': App.config.twitchClientId }
+    };
+
+    needle.get(twitchAPI.GET_channel(obj.twichChannel), options, (err, res) => {
       if (err) { 
         App.Logger.log(err, 0);
         return;
