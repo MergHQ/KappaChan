@@ -24,7 +24,7 @@ module.exports = function () {
     ws.on('open', () => {
       self.log = (payload, logLevel) => {
 
-        if(typeof(payload) === 'Object') {
+        if(payload instanceof Object) {
           try {
             payload = JSON.stringify(payload);
           } catch(e) {

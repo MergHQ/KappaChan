@@ -77,9 +77,9 @@ module.exports = function () {
       if (res.body && res.body.streams) {
         if (res.body.streams.length > 0) {
           if (obj.isLive === false) {
+            App.Logger.log(obj.twichChannel + 'is live', 2)
             for (var i = 0; i < obj.textChannels.length; i++) {
               var channel = obj.textChannels[i];
-              App.Logger.log(obj.twichChannel + 'is live', 2)
               App.client.createMessage(channel,
                 '\n **' + obj.twichChannel + ' is now live playing ' + res.body.streams[0].game + '!**  \n \n https://twitch.tv/' + obj.twichChannel
               );
