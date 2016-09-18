@@ -50,6 +50,10 @@ App.client.on('error', (e) => {
   App.Logger.log(e, 0);
 });
 
+App.client.on('debug', (d) => {
+  App.Logger.log(d, 2);
+});
+
 App.client.on('messageCreate', m => {
   if (!m.channel.guild) return;
   var split = m.content.split(' ');
