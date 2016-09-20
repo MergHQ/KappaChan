@@ -14,6 +14,7 @@ module.exports = function () {
     ws = new WebSocket(App.config.logserverIP, {headers: {'token': App.config.token}});
     ws.on('error', (e) => {
       console.log(e);
+      setTimeout(connect, 5000);
     });
 
     ws.on('close', () => {
