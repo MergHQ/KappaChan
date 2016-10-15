@@ -8,12 +8,6 @@ module.exports = function () {
     desc: 'Replaces your message with a twitch or bttv emote, example: <&emote Kappa>',
     adminOnly: false,
     exec: (payload) => {
-      var permissions = payload.message.member.permission.json;
-      if (permissions.manageMessages === undefined || permissions.manageMessages === false) {
-        App.client.createMessage(payload.message.channel.id,
-          "I can't execute this commands, since I dont have permissions to manage messages!"
-        );
-      }
       App.EmoteRequest.do(payload);
     }
   };
