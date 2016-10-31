@@ -42,7 +42,7 @@ App.client.on('guildCreate', g => {
   var res = '```Hello ' + g.name + '! Thanks for using me. \n\n'
     + 'Use &help for a list of commands.```';
 
-  App.client.createMessage(g.defaultChannel.id, res);
+  // App.client.createMessage(g.defaultChannel.id, res);
   App.Stats.update();
 });
 
@@ -76,4 +76,3 @@ App.client.on('messageCreate', m => {
 });
 
 App.client.connect();
-
