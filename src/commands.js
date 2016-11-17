@@ -17,7 +17,7 @@ module.exports = function () {
     desc: 'Lists all commands',
     adminOnly: false,
     exec: (payload) => {
-      var resStr = '\n\n HELP: \n```';
+      var resStr = '\n\n```';
       for (var i in App.Commands.commands) {
         var val = App.Commands.commands[i];
         if (val.adminOnly) continue;
@@ -26,7 +26,24 @@ module.exports = function () {
 
       resStr += '```\n\n **Kappa-Chan:** \n Created by: <@105754113572102144> \n GitHub: https://github.com/MergHQ/KappaChan \n';
 
-      App.client.createMessage(payload.message.channel.id, resStr);
+      App.client.createMessage(payload.message.channel.id, {content: '', embed: {
+        title: '*HELP*',
+        color: 14598368,
+        thumbnail: {
+          url: 'http://i.imgur.com/81bzvGY.png',
+          width: 64,
+          height: 64
+        },
+        fields: [
+          {
+            name: 'Commands',
+            value: resStr
+          }
+        ],
+        footer: {
+          text: '( ͡° ͜ʖ ͡°)'
+        }
+      }});  
     }
   };
 
