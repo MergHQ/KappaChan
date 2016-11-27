@@ -15,7 +15,7 @@ module.exports = function () {
     if (!this.notificationList[payload.parameter]) {
       var obj = {
         textChannels: [payload.message.channel.id],
-        twichChannel: payload.parameter,
+        twitchChannel: payload.parameter,
         isLive: false
       };
 
@@ -54,10 +54,10 @@ module.exports = function () {
 
   this.postNotificationsForChannel = (payload) => {
     var res = '**Notifications from these channels:**\n\n';
-    for(var i in self.notificationList) {
+    for (var i in self.notificationList) {
       var object = self.notificationList[i];
-      if(object.textChannels.indexOf(payload.message.channel.id) != -1) {
-        res += object.twichChannel + '\n';
+      if (object.textChannels.indexOf(payload.message.channel.id) != -1) {
+        res += object.twitchChannel + '\n';
       }
     }
 
@@ -69,20 +69,38 @@ module.exports = function () {
       headers: { 'Client-ID': App.config.twitchClientId }
     };
 
-    needle.get(twitchAPI.GET_channel(obj.twichChannel), options, (err, res) => {
-      if (err) { 
+    needle.get(twitchAPI.GET_channel(obj.twitchChannel), options, (err, res) => {
+      if (err) {
         App.Logger.log(err, 0);
         return;
       }
       if (res.body && res.body.streams) {
         if (res.body.streams.length > 0) {
           if (obj.isLive === false) {
-            App.Logger.log(obj.twichChannel + 'is live', 2)
+            App.Logger.log(obj.twitchChannel + 'is live', 2)
+            var payload = {
+              title: `${res.body.streams[0].channel.display_name} went live!`,
+              color: Math.floor(Math.random() * 0xffffff),
+              url: res.body.streams[0].channel.url,
+              thumbnail: {
+                url: res.body.streams[0].channel.logo,
+                width: 256,
+                height: 256
+              },
+              fields: [
+                {
+                  name: 'Title',
+                  value: res.body.streams[0].channel.status
+                },
+                {
+                  name: 'Game',
+                  value: res.body.streams[0].game
+                }
+              ]
+            }
             for (var i = 0; i < obj.textChannels.length; i++) {
               var channel = obj.textChannels[i];
-              App.client.createMessage(channel,
-                '\n **' + obj.twichChannel + ' is now live playing ' + res.body.streams[0].game + '!**  \n \n https://twitch.tv/' + obj.twichChannel
-              );
+              App.client.createMessage(channel, { content: '', embed: payload });
               obj.isLive = true;
             }
           }
@@ -100,11 +118,11 @@ module.exports = function () {
   setInterval(() => {
     var offset = 500;
     for (let i in self.notificationList) {
-        /* jshint ignore:start */
-        setTimeout(() => {
-          update(self.notificationList[i]);
-        }, offset);
-        /* jshint ignore:end */
+      /* jshint ignore:start */
+      setTimeout(() => {
+        update(self.notificationList[i]);
+      }, offset);
+      /* jshint ignore:end */
       offset += 500;
     }
   }, 60000);
