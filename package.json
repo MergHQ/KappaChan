@@ -1,0 +1,13 @@
+{
+    "name": "KappaChan",
+    "description": "Discord bot for Twitch.tv related things.",
+    "author": "Hugo Holmqvist",
+    "version": "1.0.0",
+    "main": "pathToMain",
+    "dependencies": {
+        "eris":"abalabahaha/eris#dev",
+        "needle":"*",
+        "mongodb":"*",
+        "ws":"*"
+    }
+}
