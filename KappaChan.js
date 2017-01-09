@@ -25,6 +25,7 @@ App.DatabaseHandler = new DatabaseHandler();
 App.Streamreporter = new Streamreporter();
 App.Stats = new Stats();
 App.bMuted = false;
+App.StartedAt = Date.now();
 
 const http = require('http');
 
@@ -47,6 +48,14 @@ App.client.on('ws_error', (e) => {
 
 App.client.on('_', (d) => {
   App.Logger.log(d, 2);
+});
+
+App.client.on('GUILD_CREATE', g => {
+  App.guilds.push(g);
+});
+
+App.client.on('READY', m => {
+  App.Guilds = m.guilds;
 });
 
 App.client.on('MESSAGE_CREATE', m => {

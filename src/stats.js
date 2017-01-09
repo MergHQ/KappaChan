@@ -33,7 +33,7 @@ module.exports = function () {
     };
 
     App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: {
-      content: `\n\n**UPTIME:** ${this.convertMS(App.client.uptime)} \n **Messages Recieved:** ${self.messages} \n **Command Executions:** ${self.commandExecs}`}});
+      content: `\n\n**UPTIME:** ${this.convertMS(Date.now() - App.StartedAt)} \n **Messages Recieved:** ${self.messages} \n **Command Executions:** ${self.commandExecs}`}});
   };
 
   this.update = () => {
@@ -49,7 +49,7 @@ module.exports = function () {
       }
     };
 
-    needle.post('https://bots.discord.pw/api/bots/' + App.client.user.id + '/stats/', JSON.stringify({ server_count: App.client.guilds.size }), options, (err, res) => {
+    needle.post('https://bots.discord.pw/api/bots/210341962060922881/stats/', JSON.stringify({ server_count: App.Guilds.size }), options, (err, res) => {
       if (err) { App.Logger.log(err, 0); return; }
       App.Logger.log("STATS SENT:" + JSON.stringify(res.body), 2);
     });
