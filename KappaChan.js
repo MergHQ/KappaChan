@@ -47,7 +47,8 @@ App.client.on('ws_error', (e) => {
 });
 
 App.client.on('_', (d) => {
-  App.Logger.log(d, 2);
+  
+  (e.op === 1) && App.Logger.log(d, 2);
 });
 
 App.client.on('GUILD_CREATE', g => {
