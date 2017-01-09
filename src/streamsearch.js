@@ -21,7 +21,7 @@ module.exports = function () {
         resStr += `**${streams[i].channel.display_name}** playing **${streams[i].game}** for ${streams[i].viewers} viewer(s) \n\n`;
       }
 
-      App.client.createMessage(payload.message.channel.id, resStr);
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: { content: resStr}});
     });
   };
 };

@@ -56,12 +56,11 @@ module.exports = function () {
     var res = '**Notifications from these channels:**\n\n';
     for (var i in self.notificationList) {
       var object = self.notificationList[i];
-      if (object.textChannels.indexOf(payload.message.channel.id) != -1) {
+      if (object.textChannels.indexOf(payload.message.channel_id) != -1) {
         res += object.twitchChannel + '\n';
       }
     }
-
-    App.client.createMessage(payload.message.channel.id, res);
+    App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: {content: res }});
   };
 
   function update(obj) {
@@ -100,7 +99,7 @@ module.exports = function () {
             }
             for (var i = 0; i < obj.textChannels.length; i++) {
               var channel = obj.textChannels[i];
-              App.client.createMessage(channel, { content: '', embed: payload });
+              App.client.callApi(App.Endpoints.createMessage(channel), {data: { content: '', embed: payload}});
               obj.isLive = true;
             }
           }

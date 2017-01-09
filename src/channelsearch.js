@@ -21,7 +21,7 @@ module.exports = function () {
         resStr += `**${channels[i].display_name}** with **${channels[i].followers} followers** and **${channels[i].views} channel views** \n\n`;
       }
 
-      App.client.createMessage(payload.message.channel.id, resStr);
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: { content: resStr}});
     });
   };
 };

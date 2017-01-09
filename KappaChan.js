@@ -2,7 +2,7 @@
 
 GLOBAL.App = {};
 
-const Eris = require('eris');
+const Masamune = require('Masamune');
 const fs = require('fs');
 const EmoteRequest = require('./src/emotes');
 const Commands = require('./src/commands');
@@ -15,7 +15,8 @@ const Logger = require('./src/logger');
 
 App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
 App.Logger = new Logger();
-App.client = new Eris(App.config.token);
+App.Endpoints = Masamune.Endpoints;
+App.client = new Masamune.Client(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
 App.Streamsearch = new Streamsearch();
@@ -23,8 +24,10 @@ App.Channelsearch = new Channelsearch();
 App.DatabaseHandler = new DatabaseHandler();
 App.Streamreporter = new Streamreporter();
 App.Stats = new Stats();
-
 App.bMuted = false;
+
+const http = require('http');
+
 
 process.on('uncaughtException', err => {
     App.Logger.log(err.message + '\n' + err.stack, 0);
@@ -34,32 +37,19 @@ process.on('uncaughtException', err => {
 });
 
 
-App.client.on('ready', () => {
+App.client.on('ws_ready', () => {
   App.Logger.log('READY', 2);
 });
 
-App.client.on('guildCreate', g => {
-  var res = '```Hello ' + g.name + '! Thanks for using me. \n\n'
-    + 'Use &help for a list of commands.```';
-
-  // App.client.createMessage(g.defaultChannel.id, res);
-  App.Stats.update();
-});
-
-App.client.on('error', (e) => {
+App.client.on('ws_error', (e) => {
   App.Logger.log(e, 0);
 });
 
-App.client.on('debug', (d) => {
+App.client.on('_', (d) => {
   App.Logger.log(d, 2);
 });
 
-App.client.on('warn', (d) => {
-  App.Logger.log(d, 2);
-});
-
-App.client.on('messageCreate', m => {
-  if (!m.channel.guild) return;
+App.client.on('MESSAGE_CREATE', m => {
   var split = m.content.split(' ');
   var command = split.shift();
 
@@ -68,11 +58,9 @@ App.client.on('messageCreate', m => {
     parameter: split.join(' '),
     message: m
   };
-
+  
   if (App.Stats)
     App.Stats.messages++;
 
   App.Commands.onMessage(payload);
 });
-
-App.client.connect();

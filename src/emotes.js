@@ -36,8 +36,11 @@ module.exports = function () {
           file: new Buffer(res.body),
           name: 'default.png'
         };
-        App.client.createMessage(payload.message.channel.id, '', fileObj);
-        App.client.deleteMessage(payload.message.channel.id, payload.message.id);
+        let header = 'filename="' + fileObj.name + '"\r\nContent-Type: application/octet-stream';
+        var body = Buffer.concat([new Buffer(header + '\r\n\r\n'), fileObj.file]);
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),
+        {contentType: 'multipart/form-data', data: body});
+        App.client.callApi(App.Endpoints.deleteMessage(payload.message.channel_id, payload.message.id));
       });
     } catch (e) {
       App.client.createMessage(payload.message.channel.id, '❌ Error occured: ' + e);

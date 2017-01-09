@@ -32,9 +32,8 @@ module.exports = function () {
       return `${d} days, ${h} hours, ${m} minutes and ${s} seconds.`;
     };
 
-    App.client.createMessage(payload.message.channel.id,
-      `\n\n**UPTIME:** ${this.convertMS(App.client.uptime)} \n **Messages Recieved:** ${self.messages} \n **Command Executions:** ${self.commandExecs}`);
-
+    App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: {
+      content: `\n\n**UPTIME:** ${this.convertMS(App.client.uptime)} \n **Messages Recieved:** ${self.messages} \n **Command Executions:** ${self.commandExecs}`}});
   };
 
   this.update = () => {
