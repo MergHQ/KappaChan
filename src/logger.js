@@ -4,7 +4,7 @@ module.exports = function () {
   const WebSocket = require('ws');
   const utils = require('util');
   var ws = null;
-  //connect();
+  connect();
   var self = this;
   this.log = (mess, level) => {
     console.log(mess);

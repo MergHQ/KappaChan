@@ -13,7 +13,7 @@ module.exports = function () {
       if (!res.body.channels) return;
       var channels = res.body.channels;
       if (channels.length === 0) {
-        App.client.createMessage(payload.message.channel.id, '**Query returned 0 results.**');
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),  {data: {content: '**Query returned 0 results.**'}});
         return;
       }
       var resStr = '\nRESULTS: \n\n';
