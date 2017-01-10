@@ -16,6 +16,7 @@ const Logger = require('./src/logger');
 App.config = JSON.parse(fs.readFileSync('config.cf', 'utf8'));
 App.Logger = new Logger();
 App.Endpoints = Masamune.Endpoints;
+App.Guilds = [];
 App.client = new Masamune.Client(App.config.token);
 App.EmoteRequest = new EmoteRequest();
 App.Commands = new Commands();
@@ -26,9 +27,6 @@ App.Streamreporter = new Streamreporter();
 App.Stats = new Stats();
 App.bMuted = false;
 App.StartedAt = Date.now();
-
-const http = require('http');
-
 
 process.on('uncaughtException', err => {
     App.Logger.log(err.message + '\n' + err.stack, 0);
@@ -55,7 +53,10 @@ App.client.on('GUILD_CREATE', g => {
 });
 
 App.client.on('READY', m => {
-  App.Guilds = m.guilds;
+  m.guilds.forEach(guild => {
+    if (!guild.unavailable)
+      App.Guilds.push(guild);
+  });
   App.Stats.update();
 });
 
