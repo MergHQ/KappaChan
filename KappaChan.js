@@ -57,7 +57,7 @@ App.client.on('READY', m => {
     if (!guild.unavailable)
       App.Guilds.push(guild);
   });
-  App.Stats.update();
+  setTimeout(() => {App.Stats.update();}, 60000);
 });
 
 App.client.on('MESSAGE_CREATE', m => {

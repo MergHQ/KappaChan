@@ -48,7 +48,7 @@ module.exports = function () {
         'content-type': 'application/json'
       }
     };
-
+    
     needle.post('https://bots.discord.pw/api/bots/210341962060922881/stats/', JSON.stringify({ server_count: App.Guilds.length }), options, (err, res) => {
       if (err) { App.Logger.log(err, 0); return; }
       App.Logger.log("STATS SENT:" + JSON.stringify(res.body), 2);
