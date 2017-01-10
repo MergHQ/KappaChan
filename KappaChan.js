@@ -56,6 +56,7 @@ App.client.on('GUILD_CREATE', g => {
 
 App.client.on('READY', m => {
   App.Guilds = m.guilds;
+  App.Stats.update();
 });
 
 App.client.on('MESSAGE_CREATE', m => {

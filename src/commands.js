@@ -81,11 +81,11 @@ module.exports = function () {
         /* jshint ignore:start */
         res = eval(payload.parameter.replace('\n', ''));
         /* jshint ignore:end */
-        App.client.callAPi(App.Endpoints.createMessage(payload.message.channel_id),
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),
           { data: { content: '```' + res + '```' } }
         );
       } catch (e) {
-        App.client.callAPi(App.Endpoints.createMessage(payload.message.channel_id),
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),
           { data: { content: '```' + e + '```' } }
         );
       }
