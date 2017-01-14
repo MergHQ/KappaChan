@@ -13,7 +13,7 @@ module.exports = function () {
       if (!res.body.streams) return;
       var streams = res.body.streams;
       if (streams.length === 0) {
-        App.client.createMessage(payload.message.channel.id, '**Query returned 0 results.**');
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: '**Query returned 0 results.**' } });
         return;
       }
       var resStr = '\nRESULTS: \n\n';
@@ -21,7 +21,7 @@ module.exports = function () {
         resStr += `**${streams[i].channel.display_name}** playing **${streams[i].game}** for ${streams[i].viewers} viewer(s) \n\n`;
       }
 
-      App.client.createMessage(payload.message.channel.id, resStr);
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: resStr } });
     });
   };
 };

@@ -8,40 +8,40 @@ module.exports = function () {
 
   this.addStream = (payload) => {
     if (payload.parameter.length === 0) {
-      App.client.createMessage(payload.message.channel.id, `Invalid parameter '${payload.parameter}'`);
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: `Invalid parameter '${payload.parameter}'` } });
       return;
     }
 
     if (!this.notificationList[payload.parameter]) {
       var obj = {
-        textChannels: [payload.message.channel.id],
+        textChannels: [payload.message.channel_id],
         twitchChannel: payload.parameter,
         isLive: false
       };
 
       update(obj);
       this.notificationList[payload.parameter] = obj;
-      App.client.createMessage(payload.message.channel.id, '👌');
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: '👌' } });
     } else {
       var channel = this.notificationList[payload.parameter];
 
       // This channel is already in the notification list
       if (channel.textChannels.indexOf(payload.channel_id) !== -1) return;
 
-      this.notificationList[payload.parameter].textChannels.push(payload.message.channel.id);
-      App.client.createMessage(payload.message.channel.id, '👌');
+      this.notificationList[payload.parameter].textChannels.push(payload.message.channel_id);
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: '👌' } });
     }
   };
 
   this.removeStream = (payload) => {
     if (!this.notificationList[payload.parameter]) {
-      App.client.createMessage(payload.message.channel.id, `Can't find '${payload.parameter}'`);
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: `Can't find '${payload.parameter}'` } });
       return;
     }
 
     var obj = this.notificationList[payload.parameter];
     for (var i = 0; i < obj.textChannels.length; i++) {
-      if (obj.textChannels[i] === payload.message.channel.id) {
+      if (obj.textChannels[i] === payload.message.channel_id) {
         obj.textChannels.splice(i, 1);
 
         if (obj.textChannels.length === 0)
@@ -49,19 +49,18 @@ module.exports = function () {
       }
     }
 
-    App.client.createMessage(payload.message.channel.id, '👌');
+    App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: '👌' } });
   };
 
   this.postNotificationsForChannel = (payload) => {
     var res = '**Notifications from these channels:**\n\n';
     for (var i in self.notificationList) {
       var object = self.notificationList[i];
-      if (object.textChannels.indexOf(payload.message.channel.id) != -1) {
+      if (object.textChannels.indexOf(payload.message.channel_id) != -1) {
         res += object.twitchChannel + '\n';
       }
     }
-
-    App.client.createMessage(payload.message.channel.id, res);
+    App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), { data: { content: res } });
   };
 
   function update(obj) {
@@ -100,7 +99,7 @@ module.exports = function () {
             }
             for (var i = 0; i < obj.textChannels.length; i++) {
               var channel = obj.textChannels[i];
-              App.client.createMessage(channel, { content: '', embed: payload });
+              App.client.callApi(App.Endpoints.createMessage(channel), { data: { content: '', embed: payload } });
               obj.isLive = true;
             }
           }

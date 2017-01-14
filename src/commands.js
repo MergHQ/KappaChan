@@ -9,6 +9,7 @@ module.exports = function () {
     adminOnly: false,
     exec: (payload) => {
       App.EmoteRequest.do(payload);
+
     }
   };
 
@@ -26,24 +27,28 @@ module.exports = function () {
 
       resStr += '```\n\n **Kappa-Chan:** \n Created by: <@105754113572102144> \n GitHub: https://github.com/MergHQ/KappaChan \n';
 
-      App.client.createMessage(payload.message.channel.id, {content: '', embed: {
-        title: '*HELP*',
-        color: 14598368,
-        thumbnail: {
-          url: 'http://i.imgur.com/81bzvGY.png',
-          width: 64,
-          height: 64
-        },
-        fields: [
-          {
-            name: 'Commands',
-            value: resStr
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {
+        data: {
+          content: '', embed: {
+            title: '*HELP*',
+            color: 14598368,
+            thumbnail: {
+              url: 'http://i.imgur.com/81bzvGY.png',
+              width: 64,
+              height: 64
+            },
+            fields: [
+              {
+                name: 'Commands',
+                value: resStr
+              }
+            ],
+            footer: {
+              text: '( ͡° ͜ʖ ͡°)'
+            }
           }
-        ],
-        footer: {
-          text: '( ͡° ͜ʖ ͡°)'
         }
-      }});  
+      });
     }
   };
 
@@ -76,12 +81,12 @@ module.exports = function () {
         /* jshint ignore:start */
         res = eval(payload.parameter.replace('\n', ''));
         /* jshint ignore:end */
-        App.client.createMessage(payload.message.channel.id,
-          '```' + res + '```'
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),
+          { data: { content: '```' + res + '```' } }
         );
       } catch (e) {
-        App.client.createMessage(payload.message.channel.id,
-          '```' + e + '```'
+        App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),
+          { data: { content: '```' + e + '```' } }
         );
       }
     }
@@ -92,7 +97,7 @@ module.exports = function () {
     desc: 'Send a bug report.',
     adminOnly: false,
     exec: (payload) => {
-      App.Logger.log({username:payload.message.author.username, user_id: payload.message.author.discriminator, message: payload.parameter}, 3);
+      App.Logger.log({ username: payload.message.author.username, user_id: payload.message.author.discriminator, message: payload.parameter }, 3);
       App.Logger.log('BUG REPORT (' + payload.message.author.username + ',' + payload.message.channel.name + ',' + payload.message.channel.guild.name + '):    ' + payload.parameter, 2);
     }
   };
