@@ -5,7 +5,7 @@
     "version": "1.0.0",
     "main": "pathToMain",
     "dependencies": {
-        "masamune":"merghq/muramasa",
+        "masamune":"merghq/masamune",
         "needle":"*",
         "mongodb":"*",
         "ws":"*"
