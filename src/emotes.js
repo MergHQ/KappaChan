@@ -37,9 +37,7 @@ module.exports = function () {
           name: 'default.png'
         };
         App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),
-          { contentType: 'multipart/form-data; boundary=----------------Data', data: createFormData(fileObj) }, (err, res) => {
-            console.log(res);
-          });
+          { contentType: 'multipart/form-data; boundary=----------------Data', data: createFormData(fileObj) }, (err, res) => {});
         App.client.callApi(App.Endpoints.deleteMessage(payload.message.channel_id, payload.message.id));
       });
     } catch (e) {
@@ -60,35 +58,3 @@ module.exports = function () {
     ]);
   }
 };
-
-class MultipartData {
-  constructor() {
-    this.boundary = "----------------Eris";
-    this.buf = new Buffer(0);
-  }
-
-  attach(field, data, name) {
-    if (data === undefined) {
-      return;
-    }
-    var str = "\r\n--" + this.boundary + "\r\nContent-Disposition: form-data; name=\"" + field + "\"";
-    if (name) {
-      str += "; filename=\"" + name + "\"\r\nContent-Type: application/octet-stream";
-    }
-    if (!(data instanceof Buffer)) {
-      data = new Buffer(typeof data === "object" ? JSON.stringify(data) : data);
-    }
-    this.buf = Buffer.concat([
-      this.buf,
-      new Buffer(str + "\r\n\r\n"),
-      data
-    ]);
-  }
-
-  finish() {
-    return this.buf = Buffer.concat([
-      this.buf,
-      new Buffer("\r\n--" + this.boundary + "--")
-    ]);
-  }
-}

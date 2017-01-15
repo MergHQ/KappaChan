@@ -48,7 +48,7 @@ App.client.on('_', d => {
 });
 
 App.client.on('GUILD_CREATE', g => {
-  App.Guilds.push(g);
+  g && App.Guilds.push(g);
 });
 
 App.client.on('READY', m => {
