@@ -16,12 +16,22 @@ module.exports = function () {
         App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id),  {data: {content: '**Query returned 0 results.**'}});
         return;
       }
-      var resStr = '\nRESULTS: \n\n';
+      
+      let embed = {
+        title: 'Results for "' + payload.parameter + '"',
+        fields: [],
+        footer: {
+          text: 'Fetched from the Twitch API'
+        }
+      };
       for (var i in channels) {
-        resStr += `**${channels[i].display_name}** with **${channels[i].followers} followers** and **${channels[i].views} channel views** \n\n`;
+        embed.fields.push({
+          name: channels[i].display_name,
+          value: `**Followers**: ${channels[i].followers} \n**Channel views**: ${channels[i].views}`
+        });
       }
 
-      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: { content: resStr}});
+      App.client.callApi(App.Endpoints.createMessage(payload.message.channel_id), {data: {embed}});
     });
   };
 };

@@ -6,7 +6,7 @@ module.exports = function () {
 
   function load() {
     needle.get(twitchAPI.GET_emoteList, function (err, res) {
-      if (err) return;
+      if (err || res.statusCode !== 200) return;
       var array = JSON.parse(res.body).emoticons;
       for (var i = 0; i < array.length; i++) {
         emotes[array[i].regex] = array[i].images[0].url;
@@ -14,7 +14,7 @@ module.exports = function () {
     });
 
     needle.get(bttvAPI.GET_emoteList, function (err, res) {
-      if (err) return;
+      if (err || res.statusCode !== 200) return;
       var array = res.body.emotes;
       for (var i = 0; i < array.length; i++) {
         emotes[array[i].code] = bttvAPI.GET_emote(array[i].id);
